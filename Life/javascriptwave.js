@@ -30,7 +30,7 @@ var ppcolumn=cheight/10;
 var dots;
 var alerady=false;
 var names=['NORMAL','GLIDER','PULSATOR','CANNON','EXPLOSION','OCTAGON','INFINITY','HWSS','CANNONFLOWERS'];
-var description=['Normal pen, eraser and selector!','Walks to the infinity and beyond!','More beautiful than your face','Pew pew motherfucker! DIE!','(NO CLICKBAIT)','Your still ugly','\"My Valentinsday\"','<b>H</b>eavy-<b>W</b>eight-<b>S</b>pace<b>s</b>hip','ValentinsdayPresent'];
+var description=['Normal pen, eraser and selector!','Walks to the infinity and beyond!','Beautiful','Pew pew','(NO CLICKBAIT)','Not mine','\"My Valentinsday\"','<b>H</b>eavy-<b>W</b>eight-<b>S</b>pace<b>s</b>hip','ValentinsdayPresent'];
 var value=[];
 if(true!=false){
 	value[0]=[];
