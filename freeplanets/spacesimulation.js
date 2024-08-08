@@ -127,7 +127,7 @@ function Planet(pi,vi,mi,ri,ci,rsi,ni){
 
 function solarsystem(){
 	planets.push(new Planet(new freeVector(0,0),new freeVector(0,0),333000,200,'#FFBB00',Math.PI/200,'sun'));//sun
-	planets.push(new Planet(new freeVector(0,0,390),new freeVector(0,Math.sqrt(1332/390)),(3.3/59.7),4,'#883333',Math.PI/700,'mercury')); //mercury
+	planets.push(new Planet(new freeVector(390,0),new freeVector(0,Math.sqrt(1332/390)),(3.3/59.7),4,'#883333',Math.PI/700,'mercury')); //mercury
 	planets.push(new Planet(new freeVector(720,0),new freeVector(0,Math.sqrt(1332/720)),(48.7/59.7),10,'#FF5555',Math.PI/600,'venus')); //venus
 	planets.push(new Planet(new freeVector(1000,0),new freeVector(0,Math.sqrt(1332/1000)),100,10,'#0000aa',Math.PI/10,'earth')); //Earth
 	planets.push(new Planet(new freeVector(1020,0),new freeVector(0,Math.sqrt(1332/1000)+Math.sqrt(0.02)),(0.1),3,'#D3D3D3',Math.PI/280,'mun')); //Moon
@@ -138,43 +138,7 @@ function solarsystem(){
 }
 function setup(){
 	solarsystem();
-}
-
-function filltable(planet){
-	document.getElementById('name').innerHTML=('<h1>'+planet.name+'</h1>');
-	document.getElementById('ppos').innerHTML=(planet.pos);
-	document.getElementById('pvel').innerHTML=(planet.vel);
-	document.getElementById('pmass').innerHTML=(Math.floor(planet.mass));
-	document.getElementById('pcol').innerHTML=(planet.c);
-	document.getElementById('prad').innerHTML=(planet.r);
-	$('#pcol').css({
-		'background-color':planet.c,
-		'color':'white'
-	});
-	var ssx=0;
-	var ssy=0;
-	for(i=0;i<planet.spos.length;i++){
-		if (Math.abs(planet.spos[i].x)>ssx){
-			ssx=Math.abs(planet.spos[i].x);
-		}
-		if (Math.abs(planet.spos[i].y)>ssy){
-			ssy=Math.abs(planet.spos[i].y);
-		}
-	}
-	var size;
-	if(ssx>ssy){
-		size=ssx/($('#prevcan').height()/2-2);
-	}else{
-		size=ssy/($('#prevcan').height()/2-2);
-	}
-	ctxpre.beginPath();
-	ctxpre.moveTo(planet.spos[0].x/size+10,10-planet.spos[0].y/size);
-	for(i=1;i<planet.spos.length;i++){
-		ctxpre.lineTo(planet.spos[i].x/size+10,10-planet.spos[i].y/size)
-	}
-	ctxpre.strokeStyle=('#000000');
-	ctxpre.stroke();
-	ctxpre.beginPath();
-	ctxpre.arc(0, 0, 10, 0, 2 * Math.PI, true);
-	ctxpre.fill();
+	freeDcam.pos.x = 1300
+	freeDcam.pos.y = 100
+	freeDcam.urot();
 }

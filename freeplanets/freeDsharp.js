@@ -10,24 +10,7 @@ $('#freeDcanvas').css({
 });
 var cwidth=c.width;
 var cheight=c.height;
-//PREVIEW CANVAS 
-var cpr = document.getElementById("prevcan");
-var ctxpre = c.getContext("2d");
-cpr.height = cpr.width;
 
-//END PREVIEW CANVAS
-
-var aabb=($('#prevcan').height()/2)-($('#name').height()/2)+1;
-var aacc=($('#outterprev').width()-$('#prevcan').width()-$('#name').width())/2;
-$('#name').css({
-	'margin-top':aabb,
-	'margin-right':aacc
-});
-var aadd=($('#outterprev').height()-($('#prevcan').height()))-2;
-
-$('#values').css({
-	'height':aadd,
-});
 
 var zerox=0.5*cwidth;
 var zeroy=0.5*cheight;
@@ -389,7 +372,6 @@ function World(){
 		//console.log(doots)
         this.czorder=quicksort(doots);
 		
-		console.log(new Date().getTime()-stime)
         for(var i=0;i<this.czorder.length;i++){
             var dott=this.czorder[i];
             drawengine(this.dots[dott].cpos.x,this.dots[dott].cpos.y,this.dots[dott].type,dott);
@@ -434,7 +416,6 @@ function updating(){
 		planets[b].draw();
 	}
 	drawing();
-	filltable(planets[0]);
 }
 window.onkeydown = function(event) {
 	if (event.keyCode == 65) {//A
@@ -501,10 +482,10 @@ $('#freeDcanvas').mousemove(function(e){
 		}
 		c.urot();
 	}
+	console.log(freeDcam)
 });
 $('body').mouseup(function(e){
 	mdown=false;
 });
-setup();
-
+setup()
 window.setInterval(updating,30);	

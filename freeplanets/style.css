@@ -1,6 +1,5 @@
 #outterprev{
-	width:20%;
-	height:50%;
+	width:350px;
 	z-index:2;
 	position:fixed;
 	background-color:#566275;
@@ -11,27 +10,13 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
-}
-#prevcan{
-	position:relative;
-	width:40%;
+	padding: 10px;
+	max-width: 100%;
 }
 #freeDcanvas{
 	position:fixed;
 	width:100%;
 	height:100%;
-}
-#name{
-	position:relative;
-	float:right;
-	height:20%;
-	width:40%;
-	background-color:blue;
-}
-#values{
-	width:100%;
-	height:60%;
-	background-color:yellow;
 }
 table{
 	border: 1px solid black;
