@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ich chan n nemol löse</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	</head>
+    <body>
+        <canvas id="myCanvas" width="600" height="400" style="border:1px solid #d3d3d3;">
+        GET ON CHR0M3 LEVEL!//no comment</canvas>
+        <h1>/*no comment */</h1>
+		<p></p>
+        <script type="text/javascript">
+			var relX = 0;
+			var relY = 0;
+            var c = document.getElementById("myCanvas");
+		    var ctx = c.getContext("2d");
+		    var cwidth=c.width;
+		    var cheight=c.height;
+		    var zerox=0.5*cwidth;
+		    var zeroy=0.5*cheight;
+		    var rotR=0;     //Die momentane Drehung der Kamera um den Mittelpunkt auf der XY-Ebene(RotationRound)
+		    var rotU=(45/180*Math.PI);     //Die momentane Hoch/Runter Rotation der Kamera um den Mittelpunkt(RotationUp)
+			var dot=0;							//Der Momentan angewählte Punkt
+		    var xposi= new Array();         	//X Position auf Canvas/Kamera
+		    var yposi= new Array();   			//Y Position auf Canvas/Kamera
+			var zposi= new Array();				//Tiefe: Abstand zur Kamera
+			var prow= new Array();              //Reihenfolge von Hinten nach vorne
+		    var upposi = new Array();			//Up Winkel im Objekt
+			var raposi = new Array();			//Radius/Abstand zur Mitte im Objekt
+			var rdposi = new Array();			//Rd Winkel im Objekt
+			var useposi = new Array();			//Nutzen des Punktes
+			var gposi = new Array();			//Falls er Teil einer Fläche etc ist.	
+			var gparts = new Array();			//Gruppe erstellen für 'area'
+			var color = new Array();
+			var b=0;							//Hilfsvariable
+			var c=0;                            //Hilfsvariable
+			var xm=0;							//X Koordinate von Maus
+			var ym=0;							//X Koordinate von Maus
+			var down=false;
+			var dw=0;
+			var xt=0;							//Zur Bestimmung des Z-Wertes
+			var yt=0;							//Zur Bestimmung des Z-Wertes	
+			var zt=0;							//Zur Bestimmung des Z-Wertes
+			var dt=0;							//Zur Bestimmung des Z-Wertes
+			var brp=1000;						//Punkt an dem alle Punkte zusammen kommen.
+		    function screening(value,rd,up,r){
+			//Berechnen der X/Y Koordinaten des Punktes auf dem 2D canvas. value: welcher Punkt(Nummer)|rd: Rotation um Objekt Mittelpunkt auf XY-Ebene|
+			//up: Höhenwinkel des Punktes| r:radius
+				
+		        xposi[value]=Math.cos((up))*Math.sin((rotR-rd))*r;
+		        //x wird durch die Up-Variabel der Kamera nicht beeinflusst. Jenachdem auf 
+				//welcher Höhe der Punkt auf dem Kreis ist, desto kleiner der bewegungs 
+				//Radius in x Richtung. 2 ist simpel, der Sinus beschreibt die x-Position im Einheits-
+				//kreis.->durch Rotation wird eigentlich eine Kreisbahn hervorgerufen.
+				//cos da je höher der winkel desto kleiner die Umlaufbahn des Punktes||sin da kreisbahn beschrieben
+				
+				yposi[value]=(Math.sin(-up)*Math.cos(rotU)+Math.cos((up))*Math.cos((rotR-rd))*Math.sin((rotU)))*r;
+		        //1 Die der Mittelpunkt des Kreises auf einer Ebene parallel zu XY
+		        //umsoweiter oben die Kamera desto kleiner die Grundhöhe.
+		        
+		        //2 umso höher oben desto grösser die y Veränderung durch: hinter Z-Achse/vor Z-Achse
+				
+				
+				
+		        xt=2*Math.sin((rotU-up)/2);
+				yt=Math.cos(up)*2*Math.sin((rotR-rd)/2);
+				zt=Math.cos(rotU)*2*Math.sin((rotR-rd)/2);
+				dt=Math.sqrt(xt*xt+zt*zt-2*zt*(zt-yt)/2);
+				zposi[value]=Math.cos(2*Math.asin(dt/2))*(-r);
+				//Bestimmt die Tiefe des Punktes
+				xposi[value]=xposi[value]*(1+(zposi[value]/brp));
+				yposi[value]=yposi[value]*(1+(zposi[value]/brp));
+			}
+		 	
+			function adddoto(use,x,y,z,group,col){
+			//Punkt dem Objekt hinzufügen
+			var r=Math.sqrt(x*x+y*y+z*z);
+			var rd=Math.atan2(y,x);
+			var up = Math.atan2(z,(Math.sqrt(x*x+y*y)));
+			
+				dot=useposi.length;
+				useposi[dot]=use;
+				rdposi[dot]=rd;
+				upposi[dot]=up;
+				raposi[dot]=r;
+				gposi[dot]=group;
+				color[dot]=col;
+			}
+			function showing(x,y,use,group,po,col){
+			//Darstellen der Punkte/Linien/Flächen
+		       if(use=='z'){//Blauer Strich von Mitte(z-Achse)
+					ctx.beginPath();
+					ctx.moveTo(zerox,zeroy);
+					ctx.lineTo(zerox+x, zeroy+y);
+					ctx.strokeStyle = "#0000ff";
+					ctx.stroke();
+			   }
+			   else if(use=='x'){//Roter Strich von Mitte(x-Achse)
+					ctx.beginPath();
+					ctx.moveTo(zerox,zeroy);
+					ctx.lineTo(zerox+x, zeroy+y);
+					ctx.strokeStyle = "#ff0000";
+					ctx.stroke();
+			   }
+			   else if(use=='y'){//Grüner Strich von Mitte(y-Achse)
+					ctx.beginPath();
+					ctx.moveTo(zerox,zeroy);
+					ctx.lineTo(zerox+x, zeroy+y);
+					ctx.strokeStyle = "#00ff00";
+					ctx.stroke();
+			   }
+			   else if(use=='area'){			   //Fläche bilden
+					b=0;
+					for(var i=0;i<useposi.length;i++){
+						if(gposi[i]==group){
+							gparts[b]=i;
+							b++;
+						}
+					}
+					ctx.beginPath();
+					ctx.moveTo(zerox+xposi[gparts[0]],zeroy+yposi[gparts[0]]);
+					for(var i=1;i<b;i++){
+					ctx.lineTo(zerox+xposi[gparts[i]],zeroy+yposi[gparts[i]]);
+					}
+					ctx.lineTo(zerox+xposi[gparts[0]],zeroy+yposi[gparts[0]]);
+					ctx.fillStyle = "#ffff00";
+					ctx.fill();
+					ctx.strokeStyle = "#000000";
+					ctx.stroke();
+					
+			   }else if(use=='line'){
+						b=-1;
+						for(i=0;i<useposi.length&&b==-1;i++){
+							if(gposi[i]==group){
+								b=i;
+							}
+						}	
+						ctx.beginPath();
+						ctx.moveTo(zerox+xposi[b],zeroy+yposi[b]);
+						ctx.lineTo(zerox+x, zeroy+y);
+						ctx.strokeStyle = "#000000";
+						ctx.stroke();
+			   }
+			   else{//Standard Punktierung
+					ctx.beginPath();
+					ctx.arc(zerox+x, zeroy+y, 2, 0, 2 * Math.PI, true);
+					ctx.strokeStyle = col||'#000000';
+					ctx.stroke();
+				}
+			}
+			
+		
+			
+			
+			function whitescreen(){
+				ctx.clearRect(0, 0, cwidth, cheight);
+		
+			}
+			
+			
+			
+			function rendering(){
+				
+				if(down==true){
+					rotR = rotR-(relX-xm)/180*Math.PI;
+					rotU = rotU+(-1*(relY-ym))/180*Math.PI;
+				}
+				console.log(zposi[0])
+				whitescreen();
+				for(i=0;i<useposi.length;i++){
+				screening(i,rdposi[i],upposi[i],raposi[i]);
+				}
+				
+				b=0;
+				c=-500;
+				while(c<500){
+					for(i=0;i<useposi.length;i++) {
+					    if(Math.floor(zposi[i])==c){
+					        prow[b]=i;
+					        b++;
+					    }
+					}
+                    c++;
+				}
+				c=0;/* */
+				for(i=0;i<useposi.length;i++){
+				    
+					showing(xposi[i],yposi[i],useposi[i],gposi[i],prow[i],color[i]);
+				}
+				
+			}
+			function turning(){
+				rotR=rotR+(1*Math.PI/180);
+				rotU=(10*Math.PI/180);
+			}
+			$('#myCanvas').mousedown(function(){
+			down=true;
+			dw=1;
+			
+			});
+			$(document).mouseup(function(){
+			down=false;
+			});
+			$('#myCanvas').mousemove(function(e){
+			    if(down!=false){
+			        relX = e.clientX;
+					relY = e.clientY;
+					if(dw==1){
+					xm=relX;
+					ym=relY;
+					dw=0;
+					}
+					//console.log(relX+'  ||  '+relY);
+					rendering();
+					xm=relX;
+					ym=relY;
+			    }else{return;}
+			});
+			
+			
+			//function adddoto(use,x,y,z,group)uses:'area':'z':'x':'y'
+			/*adddoto('z',0,0,100);
+			adddoto('x',0,100,0);
+			adddoto('y',100,0,0);
+			adddoto('haha',40,40,40);
+			adddoto('line',40,40,40,10);
+			adddoto('line',40,-40,40,10);
+			adddoto('line',40,40,-40,11);
+			adddoto('line',40,-40,-40,11);
+			adddoto('area',150,150,151,1);
+			adddoto('area',150,150,102,1);
+		    adddoto('area',150,100,104,1);
+			adddoto('area',150,100,153,1);
+			adddoto('area',150,150,154,2);
+			adddoto('area',150,150,106,2);
+			adddoto('area',100,100,107,2);
+			adddoto('area',100,100,151,2);*/
+			for(var integer=0;integer<16;integer++){
+				for(var u=0;u<16;u++){
+					for(var v=0;v<16;v++){
+						adddoto('haha',integer*20,u*20,v*20,'','rgb('+integer*16+','+u*16+','+v*16+')');
+					}
+				}
+			}
+			rendering();
+			/*adddoto('area',30,60,100,'a');
+			adddoto('area',20,50,140,'a');
+			adddoto('area',40,40,130,'a');*/
+		//	window.setInterval(rendering,20);
+			
+			/*screening(1,0,90,100);	
+			screening(2,0,0,100);
+			screening(3,90,0,100);
+			whitescreen();*/
+        </script>
+    </body>
+</html>

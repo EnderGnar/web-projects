@@ -1,0 +1,53 @@
+<html>
+<head>
+
+<link rel="shortcut icon" type="image/x-icon" href="Unbenannt.ico">
+<link href="style.css" rel="stylesheet">
+
+<title>
+Läbe
+
+</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>PINGPINGPONG</h1>
+<canvas id='wavey' width="1000" height="650" style="border:1px solid #d3d3d3;">Get CHROME</canvas>
+<div id='allright'>
+<div id='rightcorner'>
+	<div id='textboxtitle'>
+	<h2 id='lol'>Glider</h2>
+	</div>
+	<div id='textboxtext'>
+	</div>
+	<div id='canvasout'>
+	<canvas id='notwavey' width="90" height="90" >Get CHROME</canvas>
+	</div>
+	<input type='button' id='firstbutton' value='' onClick='upscrole()'>
+	
+	<input type='button' id='secondbutton' value='' onClick='downscrole()'>
+	<input type='button' id='turnbutton' value='' onClick='turnit()'>
+</div>
+<div id='categoryf'>
+<div id='btdiv'>
+<input type='button' value='Simulate' id='frbt' onClick='lifego()'>
+</div>
+<label for="speed"><div id='auto'><input type="checkbox"  value="speed" id='speed' onchange='doornot()'><div id='manna'> Autospeed</div></div></label>
+</div>
+
+<div class='category'>
+<input type='button' value='Clear' class ='bt' onClick='setup()'>
+</div>
+
+<div class='category'>
+<input type='button' id='selectbutton' value='SELECT' onClick='selectit()'class ='bt'>
+</div>
+
+<div class='category'>
+<input type='button' id='selectbutton' value='Copy' onClick='copyit()'class ='bt'>
+</div>
+</div>
+<script src='javascriptwave.js'></script>
+</body>
+</html>
