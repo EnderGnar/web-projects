@@ -221,18 +221,22 @@ $(document).keydown(function(e) {
     switch(e.which) {
 		case 37: // left
 		mover.wish=3;
+		e.preventDefault();
         break;
-
+		
         case 38: // up
 		mover.wish=0;
+		e.preventDefault();
         break;
-
+		
         case 39: // right
 		mover.wish=1;
+		e.preventDefault();
         break;
-
+		
         case 40: // down
 		mover.wish=2;
+		e.preventDefault();
         break;
     }
 });
