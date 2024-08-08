@@ -10,8 +10,8 @@ var go=false;
 var intergo;	
 var updateinter;
 var savesss=1;
-var seleoffsetx;//NIGGGI GàHHHHHHHHHHmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-var seleoffsety;//NIGGGI GàHHHHHHHHHH
+var seleoffsetx;
+var seleoffsety;
 var cto = document.getElementById("notwavey");
 var ctxto = cto.getContext("2d");
 
@@ -88,7 +88,7 @@ function selecting(){
 		var my=spoints[0][1];
 	}
 	seleoffsetx=mx;
-	seleoffsety=my;//NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGIIIIIIIIIIIIIIIIIIIII
+	seleoffsety=my;
 	for(var i=mx; i>=sx; i-- ){
 		for(var j= my; j>= sy; j--){
 			if(dots[i][j].alive==true){
