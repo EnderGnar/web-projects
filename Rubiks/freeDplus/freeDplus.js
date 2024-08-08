@@ -178,7 +178,7 @@ function freeMatrix(){
 	this.sectionsize=1000;
 	this.sections=[];
 	this.zero=new freeVector(c.width/2,c.height/2);
-	this.cam= new freeDCamera(new freeVector(100,0,0),new freeVector(-10,0,0));
+	this.cam= new freeDCamera(new freeVector(80,0,0),new freeVector(-10,0,0));
 	this.cam.uaxis();
 	this.addDot=function(oi){
 		var oo=oi||{}

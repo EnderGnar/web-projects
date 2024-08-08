@@ -97,10 +97,10 @@ $('#freeDcanvas').mousedown(function(e){
 	var rel=new freeVector(e.clientX-$('#freeDcanvas').offset().left-c.width/2,c.height/2-(e.clientY-$('#freeDcanvas').offset().top));
 	takencubes={x:[],y:[]};
 	for(l in Rubix.cubes){
-		if(Rubix.cubes[l].pos.z===Math.round(rel.y/80)){
+		if(Rubix.cubes[l].pos.z===Math.round(rel.y/59)){
 			takencubes.x.push(Rubix.cubes[l]);
 		}
-		if(Rubix.cubes[l].pos.y===Math.round(rel.x/80)){
+		if(Rubix.cubes[l].pos.y===Math.round(rel.x/59)){
 			takencubes.y.push(Rubix.cubes[l]);
 		}
 	}
